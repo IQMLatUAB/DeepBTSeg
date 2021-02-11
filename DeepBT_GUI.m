@@ -504,9 +504,20 @@ if isempty(handles.non_compl)
     close(bar);
     return;
 end
+waitbar(0.2);
+%check Internet connection to server and reactivate the connection if the
+%socket timeout(10 minutes)
+try
+    [job_msg, job_result] = jobmgr.server.control('check_server_connection');
+catch ME
+    if (strcmp(ME.identifier,'MATLAB:zmq_communicate:timeout'))
+    end
+end
+
 steps = length(handles.non_compl);
+
 for i = 1:length(handles.non_compl)
-    waitbar(i/steps);
+    waitbar(0.2+0.8*(i/steps));
     try
         [job_msg, job_result] = jobmgr.server.control('check_job',cell2mat(handles.job_content(handles.non_compl(i), 12)));
         
