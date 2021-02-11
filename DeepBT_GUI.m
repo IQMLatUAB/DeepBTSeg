@@ -117,11 +117,12 @@ function Load_Dicom_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 dicom_path = uigetdir('*.*');
-% fprintf('%s\n', ctfroot);
-[filelist fusion_filelist tempinfo] = parse_directory_for_dicom(dicom_path);
-handles.filelist = filelist;
-handles.dicominfo = tempinfo;
-set(handles.pre_process_table, 'Unit','characters','Data',tempinfo);
+if dicom_path
+    [filelist fusion_filelist tempinfo] = parse_directory_for_dicom(dicom_path);
+    handles.filelist = filelist;
+    handles.dicominfo = tempinfo;
+    set(handles.pre_process_table, 'Unit','characters','Data',tempinfo);
+end
 guidata(hObject, handles);
 
 % --- Executes on button press in Submit_job.
@@ -132,6 +133,18 @@ img_dir{2}{3} = handles.filelist{3,1};
 img_dir{2}{4} = handles.filelist{4,1};
 sub_idx = 2;
 %%
+%check Internet connection to server and reactivate the connection if the
+%socket timeout(10 minutes)
+conbar = waitbar(0.5,'Check the Internet connection....');
+try
+    [job_msg, job_result] = jobmgr.server.control('check_server_connection');
+catch ME
+    if (strcmp(ME.identifier,'MATLAB:zmq_communicate:timeout'))
+        fprintf('Attemp to reconnect.....');
+    end
+end
+close(conbar);
+
 bar = waitbar(0,'Submitting a job to server....'); 
 for seq_idx = 1:4%length(img_dir{sub_idx})
     clear img_all;clear vec1;clear vec2;
@@ -306,15 +319,6 @@ run_opts.execution_method = 'job_server';
 run_opts.run_names = {'clientdata'};
 waitbar(0.8);
 
-%check Internet connection to server
-try
-    [job_msg, job_result] = jobmgr.server.control('check_server_connection');
-catch ME
-    if (strcmp(ME.identifier,'MATLAB:zmq_communicate:timeout'))
-%         warndlg('The server did not respond in time.Please check the server address and Internet connection.', '!! Warning !!');
-%         close(bar);
-    end
-end
 
 try
     r = jobmgr.run(configs, run_opts);
@@ -393,11 +397,33 @@ idx = eventdata.Indices;
 table_info = get(handles.job_table,'Data');
 job_selected = handles.job_content(idx(1), :);
 act = table_info{idx(1),1};
+
+%check Internet connection to server and reactivate the connection if the
+%socket timeout(10 minutes)
+conbar = waitbar(0.5,'Check the Internet connection....');
+try
+    [job_msg, job_result] = jobmgr.server.control('check_server_connection');
+catch ME
+    if (strcmp(ME.identifier,'MATLAB:zmq_communicate:timeout'))
+        fprintf('Attemp to reconnect.....');
+    end
+end
+close(conbar);
+
 if table_info{idx(1),4}
     switch act
         case 'Check job'
             if strcmp(handles.job_content(idx(1),2), 'Submitted')
-                [job_msg, job_result] = jobmgr.server.control('check_job',cell2mat(handles.job_content(idx(1), 12)));
+                try
+                    [job_msg, job_result] = jobmgr.server.control('check_job',cell2mat(handles.job_content(idx(1), 12)));
+                catch ME
+                    if (strcmp(ME.identifier,'MATLAB:zmq_communicate:timeout'))
+                        warndlg('The server did not respond in time.Please check the server address and Internet connection.', '!! Warning !!');
+                        close(bar);
+                    end
+                    return;
+                end
+                
                 if ~isempty(job_result)
                     jobmgr.store(@jobmgr.example.solver, cell2mat(handles.job_content(idx(1), 12)), job_result); %store the result in cache
                     
@@ -491,7 +517,7 @@ function Update_all_jobs_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.non_compl = [];
-bar = waitbar(0, 'Updating all jobs......');
+
 [idx,~] = size(handles.job_content);
 for i=1:idx %find all non-completed jobs
     if ~strcmp(handles.job_content{i, 2}, 'Completed') && ~isempty(handles.job_content{i, 2})
@@ -504,16 +530,20 @@ if isempty(handles.non_compl)
     close(bar);
     return;
 end
-waitbar(0.2);
+
 %check Internet connection to server and reactivate the connection if the
 %socket timeout(10 minutes)
+conbar = waitbar(0.5,'Check the Internet connection....');
 try
     [job_msg, job_result] = jobmgr.server.control('check_server_connection');
 catch ME
     if (strcmp(ME.identifier,'MATLAB:zmq_communicate:timeout'))
+        fprintf('Attemp to reconnect.....');
     end
 end
+close(conbar);
 
+bar = waitbar(0, 'Updating all jobs......');
 steps = length(handles.non_compl);
 
 for i = 1:length(handles.non_compl)
