@@ -16,7 +16,7 @@ Open the DeepNI folder in matlab.
 # DeepBTSeg GUI
 ![](images/DeepBTGUI_whole_window.PNG)
 # User instructions
-1.Make sure the current folder of Matlab is under DeepBTSeg.
+1.Make sure the current folder of Matlab is under DeepBT.
 
 2.Run DeepBT_GUI.m under the DeepBT folder in matlab.
 
