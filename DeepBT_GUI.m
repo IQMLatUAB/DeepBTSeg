@@ -56,9 +56,16 @@ function DeepBT_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 jobmgr.empty_cache(@jobmgr.example.solver);
 handles.output = hObject;
 %%%%%You must comment the addpath when matlab compiler
-% addpath utils
-% addpath DICOM2Nifti
+addpath utils
+addpath DICOM2Nifti
 %%%%%
+if isfolder('DeepSeg_nii_dir')
+    rmdir('DeepSeg_nii_dir','s'); 
+end
+if isfolder('DeepSeg_files')
+    rmdir('DeepSeg_files','s');
+end
+
 try
     websave('DeepBT_softlist.mat','https://drive.google.com/uc?export=download&id=1o7xPhexFo9G_dcBnfywsw_4Ve-GjnEgU'); % load the default argument from google drive
 catch ME

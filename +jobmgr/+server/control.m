@@ -1,5 +1,5 @@
 function [re_msg, re_result] = control(msg, argument)
-
+    load('jobmgr/netsrv/server');
     valid_messages = {'accept_workers', 'quit_workers', 'quit_workers_when_idle', 'set_timeout','check_job','cancel_job','check_server_connection'};
 
     if nargin < 1 || ~any(strcmp(msg, valid_messages))
@@ -11,13 +11,13 @@ function [re_msg, re_result] = control(msg, argument)
                        '  ''set_timeout N'' Workers whose last communication was N seconds ago are considered to have crashed\n'...
                       ]));
     end
-
+    
     request = struct();
     request.msg = msg;
     if nargin >= 2
         request.argument = argument;
     end
-
+    
     try
         response = jobmgr.netsrv.make_request(request);
         fprintf('Response from server: %s\n', response.status);
@@ -26,13 +26,13 @@ function [re_msg, re_result] = control(msg, argument)
     catch E
         if strcmp(E.identifier, 'MATLAB:client_communicate:need_init')
             fprintf('Job Manager: Assuming job server is running on localhost.\n');
-
-            jobmgr.netsrv.start_client('localhost', jobmgr.server.tcp_port);
+            % add remote server
+            jobmgr.netsrv.start_client(server{1}, jobmgr.server.tcp_port);
             response = jobmgr.netsrv.make_request(request);
             fprintf('Response from server: %s\n', response.status);
         else
             rethrow(E);
         end
     end
-
+    
 end
