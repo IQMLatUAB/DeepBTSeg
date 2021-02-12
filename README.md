@@ -14,7 +14,7 @@ or try
 Open the DeepNI folder in matlab.
 
 # DeepBTSeg GUI
-
+![](images/DeepBTGUI_whole_window.PNG)
 # User instructions
 1.make sure the current folder of Matlab is under DeepBTSeg.
 
@@ -24,7 +24,7 @@ Open the DeepNI folder in matlab.
 
 4.Using the checklist on the left of the DICOM_selection_GUI window to specify the pre-contrast T1, post-contrast T1, FLAIR, and T2 images.
 
-5.Click “Submit this job” to transmit this job to the server for processing or click “Submit for all models” to apply all models on the current image series.
+5.Click “Submit job for selected model” to transmit this job to the server for processing or click “Submit jobs for all models” to apply all models on the current DICOM image series.
 
 6.Click "Check job" under the action menu or "Update status for all jobs" button to refresh the job status and messages from the remote server, which shown in matlab command window..
 
