@@ -445,7 +445,7 @@ if table_info{idx(1),4}
                     
                     guidata(hObject, handles);
                 else
-                    waitfor(msgbox(job_msg));
+                    msgbox(job_msg);
                     handles.job_content{idx(1),1} = 'Action';
                     job_show = handles.job_content(:,1:10);
                     set(handles.job_table, 'Unit','characters','Data',job_show);
@@ -476,7 +476,7 @@ if table_info{idx(1),4}
                     handles.job_content{idx(1),1} = 'Action';
                     job_show = handles.job_content(:,1:10);
                     set(handles.job_table, 'Unit','characters','Data',job_show);
-                    waitfor(msgbox('This job has been canceled in server.'));
+                    msgbox('This job has been canceled in server.');
                 end
             else
                 waitfor(msgbox('Cannot cancel a job which is being processing in server.'));
@@ -503,7 +503,7 @@ if table_info{idx(1),4}
             end
         case 'Export results'
             if ~strcmp(handles.job_content(idx(1), 2), 'Submitted') && (handles.job_content{idx(1), 11}==1)
-                DICOMRT_conversion_v01152021(handles.job_content(idx(1), 13), handles.job_content(idx(1), 14));
+                DICOMRT_conversion_v01152021(handles.job_content{idx(1), 13}, handles.job_content{idx(1), 14}, handles.job_content{idx(1), 12}, handles.job_content{idx(1), 11});
                 handles.job_content{idx(1),1} = 'Action';
                 job_show = handles.job_content(:,1:10);
                 set(handles.job_table, 'Unit','characters','Data',job_show);

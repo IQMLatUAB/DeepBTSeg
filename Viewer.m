@@ -82,13 +82,13 @@ contour = r{1};
 if ~isfolder('DeepSeg_files') %make sure files folder exists
     mkdir DeepSeg_files;
 end
-if handles.currsoft ==1
-    fileID = fopen('DeepSeg_files/Seg_results_inverted.nii.gz','w+');
+if handles.currsoft ==1 || handles.currsoft == 3 || handles.currsoft == 4 || handles.currsoft == 5
+    fileID = fopen('DeepSeg_files/Seg_results_inverted.nii','w+');
     fwrite(fileID,contour,'*bit8');
     fclose(fileID);
     % gunzip('files\Seg_results_inverted.nii.gz','files\');
-    contour = niftiread(append(pwd,'\DeepSeg_files\Seg_results_inverted.nii.gz'));
-    contour = round(contour/1000);
+    contour = niftiread(append(pwd,'\DeepSeg_files\Seg_results_inverted.nii'));
+    
 elseif handles.currsoft ==2
     fileID = fopen('DeepSeg_files/DeepSeg_results_inverted.nii','w+');
     fwrite(fileID,contour,'*bit8');
@@ -123,14 +123,14 @@ end
 V_seg_results_nifti = contour(row_start:(row_start+size(handles.image_vol_all(:,:,:,1),1)-1), col_start:(col_start+size(handles.image_vol_all(:,:,:,1),2)-1),:);
 [x, y, z] = size(V_seg_results_nifti);
 
-if handles.currsoft ==2
-    enha = 4;
-elseif handles.currsoft ==1
-    enha = 3;
-end
+% if handles.currsoft ==2
+%     enha = 4;
+% elseif handles.currsoft ==1
+%     enha = 3;
+% end
 for idx_target = 1:5
     if idx_target==1
-        mask1 = ((V_seg_results_nifti==1) + (V_seg_results_nifti==enha))>0;
+        mask1 = ((V_seg_results_nifti==1) + (V_seg_results_nifti==3))>0;
         temp = zeros(x, y, z);
         temp(mask1==1) = 4;
         handles.mask_all(:,:,:,4) = temp;
@@ -148,7 +148,7 @@ for idx_target = 1:5
         handles.mask_all(:,:,:,1) = temp;
         now_ROI_name = 'NE Tumor';
     elseif idx_target==4
-        mask1 = (V_seg_results_nifti==enha);
+        mask1 = (V_seg_results_nifti==3);
         temp = zeros(x, y, z);
         temp(mask1==1) = 4;
         handles.mask_all(:,:,:,3) = temp;
@@ -442,4 +442,4 @@ guidata(hObject, handles);
 
 % --- Executes on button press in export_results.
 function export_results_Callback(hObject, eventdata, handles)
-DICOMRT_conversion_v01152021(handles.content_show(:,11), handles.content_show(:,12));
+DICOMRT_conversion_v01152021(handles.content_show{:,11}, handles.content_show{:,12}, handles.content_show{:,10}, handles.content_show{:,9});

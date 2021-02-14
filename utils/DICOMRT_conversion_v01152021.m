@@ -1,12 +1,32 @@
-function DICOMRT_conversion_v01152021(origfile, filelist)
+function DICOMRT_conversion_v01152021(origfile, filelist, hashkey, currsoft)
 [file,path,indx] = uiputfile('*.dcm');
-%%%%%% You must comment the addpath when matlab compiler
-% addpath nii_dir
-%%%%%%
-V = niftiread('DeepSeg_files\Seg_results_inverted.nii.gz');
-V = round(V/1000);
-Vtemp1 = niftiread(append('DeepSeg_nii_dir\', origfile{1},'T1.nii'));
+if ~indx
+    return;
+end
+bar = waitbar(0,'Exporting the DICOM RTSS....');
+r = jobmgr.recall(@jobmgr.example.solver, hashkey); %read the cache results
+contour = r{1};
+if ~isfolder('DeepSeg_files') %make sure files folder exists
+    mkdir DeepSeg_files;
+end
+if currsoft ==1 || currsoft == 3 || currsoft == 4 || currsoft == 5
+    fileID = fopen('DeepSeg_files/Seg_results_inverted.nii.gz','w+');
+    fwrite(fileID,contour,'*bit8');
+    fclose(fileID);
+    % gunzip('files\Seg_results_inverted.nii.gz','files\');
+    V = niftiread(append(pwd,'\DeepSeg_files\Seg_results_inverted.nii')); %contour
+    
+elseif currsoft ==2
+    fileID = fopen('DeepSeg_files/DeepSeg_results_inverted.nii','w+');
+    fwrite(fileID,contour,'*bit8');
+    fclose(fileID);
+    V = niftiread(append(pwd,'\DeepSeg_files\DeepSeg_results_inverted.nii')); %contour
+end
 
+% V = niftiread('DeepSeg_files\Seg_results_inverted.nii.gz');
+% V = round(V/1000);
+Vtemp1 = niftiread(append('DeepSeg_nii_dir\', origfile,'T1.nii'));
+waitbar(0.1);
 % trim the padding 200 pixels  
 if size(Vtemp1,1)>size(Vtemp1,2)
     pad_to_size = size(Vtemp1,1)+200;
@@ -23,9 +43,9 @@ V_seg_results_ori_T1 = flip(permute(V_seg_results_nifti,[2 1 3]),1); % now it is
 V_seg_results_ori_T1 = flip(V_seg_results_ori_T1, 3);
 
 %%
-bar = waitbar(0,'Exporting the DICOM RTSS....');
-% target_img_dir = img_dir{sub_idx}{1};
-file_info = filelist{1,1};
+
+
+file_info = filelist;
 load('dicomrt_template.mat');
 
 for idx = 1:length(file_info)
