@@ -134,6 +134,10 @@ guidata(hObject, handles);
 
 % --- Executes on button press in Submit_job.
 function Submit_job_Callback(hObject, eventdata, handles)
+if ~isfield(handles,'filelist')
+    msgbox('Please specify data before submitting jobs!');
+    return;
+end
 img_dir{2}{1} = handles.filelist{1,1};
 img_dir{2}{2} = handles.filelist{2,1};
 img_dir{2}{3} = handles.filelist{3,1};
@@ -508,7 +512,7 @@ if table_info{idx(1),4}
                 job_show = handles.job_content(:,1:10);
                 set(handles.job_table, 'Unit','characters','Data',job_show);
             else
-                waitfor(msgbox('There is no result for this job. Please choose "check job".'));
+                msgbox('There is no result for this job. Please choose "check job".');
                 handles.job_content{idx(1),1} = 'Action';
                 job_show = handles.job_content(:,1:10);
                 set(handles.job_table, 'Unit','characters','Data',job_show);
@@ -524,7 +528,7 @@ function Update_all_jobs_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 handles.non_compl = [];
-
+bar = waitbar(0, 'Updating all jobs......');
 [idx,~] = size(handles.job_content);
 for i=1:idx %find all non-completed jobs
     if ~strcmp(handles.job_content{i, 2}, 'Completed') && ~isempty(handles.job_content{i, 2})
@@ -550,7 +554,7 @@ catch ME
 end
 close(conbar);
 
-bar = waitbar(0, 'Updating all jobs......');
+
 steps = length(handles.non_compl);
 
 for i = 1:length(handles.non_compl)
@@ -612,6 +616,11 @@ guidata(hObject, handles);
 
 % --- Executes on button press in Submit_all_model.
 function Submit_all_model_Callback(hObject, eventdata, handles)
+if ~isfield(handles,'filelist')
+    msgbox('Please specify data before submitting jobs!');
+    return;
+end
+
 img_dir{2}{1} = handles.filelist{1,1};
 img_dir{2}{2} = handles.filelist{2,1};
 img_dir{2}{3} = handles.filelist{3,1};
@@ -777,7 +786,8 @@ for sof = 1:sofnum
     run_opts = struct();
     run_opts.execution_method = 'job_server';
     run_opts.run_names = {'clientdata'};
-    waitbar(0.8);
+%     t = 0.5+((0.5/sofnum)*sof);
+    waitbar(0.5+((0.5/sofnum)*sof));
     try
         r = jobmgr.run(configs, run_opts);
     catch ME
@@ -788,10 +798,9 @@ for sof = 1:sofnum
         return;
     end
     
-    t = 0.5+((0.5/sofnum)*sof);
-    waitbar(t);
-%     sofidx = get(handles.software_list,'value');
-%     sofstr = get(handles.software_list,'string');
+    
+    %     sofidx = get(handles.software_list,'value');
+    %     sofstr = get(handles.software_list,'string');
     currsof = sofstr{sof}; % the name of software user choose
     if isempty(r{1})
         temp2 = {'Action' 'Submitted'};
