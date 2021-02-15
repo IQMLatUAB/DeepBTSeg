@@ -55,7 +55,7 @@ function Viewer_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for Viewer
 handles.output = hObject;
 %%%%%% You must comment the addpath when matlab compiler
-addpath utils
+% addpath utils
 %%%%%%
 handles.btndwn_fcn2        = @(hObject,eventdata)Viewer('axes2_ButtonDownFcn',hObject,eventdata,guidata(hObject));
 handles.btndwn_fcn3        = @(hObject,eventdata)Viewer('axes3_ButtonDownFcn',hObject,eventdata,guidata(hObject));

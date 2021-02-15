@@ -56,8 +56,8 @@ function DeepBT_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 jobmgr.empty_cache(@jobmgr.example.solver);
 handles.output = hObject;
 %%%%%You must comment the addpath when matlab compiler
-addpath utils
-addpath DICOM2Nifti
+% addpath utils
+% addpath DICOM2Nifti
 %%%%%
 if isfolder('DeepSeg_nii_dir')
     rmdir('DeepSeg_nii_dir','s'); 
@@ -502,7 +502,7 @@ if table_info{idx(1),4}
                 
             end
         case 'Export results'
-            if ~strcmp(handles.job_content(idx(1), 2), 'Submitted') && (handles.job_content{idx(1), 11}==1)
+            if ~strcmp(handles.job_content(idx(1), 2), 'Submitted') 
                 DICOMRT_conversion_v01152021(handles.job_content{idx(1), 13}, handles.job_content{idx(1), 14}, handles.job_content{idx(1), 12}, handles.job_content{idx(1), 11});
                 handles.job_content{idx(1),1} = 'Action';
                 job_show = handles.job_content(:,1:10);
