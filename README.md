@@ -8,6 +8,8 @@ This repository is the client end Matlab code of DeepBTSeg. We also provide the 
 
 Dowload DeepBTSeg repository and unzip it.
 
+![](images/9.png)
+
 or try
     
     $ git clone https://github.com/IQMLatUAB/DeepBTSeg.git
