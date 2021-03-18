@@ -4,6 +4,8 @@ DeepBTSeg provides a user-friendly graphical user interface (GUI) of remote stat
 This repository is the client end Matlab code of DeepBTSeg. We also provide the executable version of DeepBTSeg [here](https://github.com/IQMLatUAB/DeepBTSeg-executable).
  DeepBTSeg is developed under Matlab 2020b and is executable under Matlab 2019b and Matlab 2020a. Running the DeepBTSeg Matlab code under Matlab 2020b is recommended.
 
+# Architecture
+![](images/flowchart_V1.png)
 # Installation
 
 Dowload DeepBTSeg repository and unzip it.
