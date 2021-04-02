@@ -37,23 +37,23 @@ After download is finished, Open MATLAB, change MATLAB current folder to the pat
 ## User_Instruction
 1. Click `Load images` button select the DICOM folder which needed to be processed.
 
-2. Parse the directory of DICOM images. Under the `Select as` column, specify `T1pre`, `T1post`, `T2`, `Flair` to the corresponding series, then click `OK`.
+2. Parse the directory of DICOM images. Under the `Select as` column, specify `T1pre`, `T1post`, `T2`, `Flair` to the corresponding series, then click `OK`. DeepBTSeg will convert the DICOM file to NIfTI format.
 ![](images/DICOM_selection.png)
 
 3. Back to `DeepBT_GUI`, select the desired model that wants to be used during the segmentation process.
 
-3. Click `Submit job for selected model` to transmit this job to the server for processing or click “Submit jobs for all models” to apply all models on the current DICOM image series.
+3. Click `Submit job for selected model` to transmit this job to the server for processing or click `Submit jobs for all models` to apply all models on the current DICOM image series.
 
     - Then, the series and the selected model will be composed to a job, then be moved to the lower `Jobs` panel. And, the `Status` will become `Submitted`.
 
 4. Click `Check job` under the `Action` column or `Update status for all jobs` button to refresh the job status and messages from the server, which shown in matlab command window.
     - If the Job is finished, server will send the result back to the client, then `Status` column will change from `Submitted` to `Completed`.
 
-5. After the Job is completed, the user can view the result by click the `View results` option under `Action` column.
+5. After the Job is completed, the user can view the result by clicking the `View results` option under `Action` column.
 
 ![](images/Image_viewer.png)
 
-6. The above image is a pop-up `image viewer`. Ther are several finction we implemented.
+6. The above image is a pop-up `DeepBTSeg viewer`. Ther are several functions we implemented.
     - User can choose which ROI they want to investigate by clicking the axial, sagittal, coronal sliced images.
     - User can click which segmented label of brain tumor contour they want to explore.
     - User can also switch the different series (T1, T1post, T2, Flair)
