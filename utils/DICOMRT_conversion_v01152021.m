@@ -113,7 +113,7 @@ dicomrt_hdr.ROIContourSequence.Item_5 = dicomrt_hdr.ROIContourSequence.Item_4;
 dicomrt_hdr.ROIContourSequence.Item_5.ReferencedROINumber = 5;
 dicomrt_hdr.StructureSetROISequence.Item_5 = dicomrt_hdr.StructureSetROISequence.Item_4;
 dicomrt_hdr.StructureSetROISequence.Item_5.ROINumber = 5;
-for idx = 2
+for idx = 2:9
     dicomrt_hdr.ROIContourSequence.Item_4.ContourSequence = rmfield(dicomrt_hdr.ROIContourSequence.Item_4.ContourSequence,['Item_' num2str(idx)]);
     dicomrt_hdr.ROIContourSequence.Item_5.ContourSequence = rmfield(dicomrt_hdr.ROIContourSequence.Item_5.ContourSequence,['Item_' num2str(idx)]);
 end

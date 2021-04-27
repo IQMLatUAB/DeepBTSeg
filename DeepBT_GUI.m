@@ -56,18 +56,19 @@ function DeepBT_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 jobmgr.empty_cache(@jobmgr.example.solver);
 handles.output = hObject;
 %%%%%You must comment the addpath when matlab compiler
-% addpath utils
-% addpath DICOM2Nifti
+addpath utils
+addpath DICOM2Nifti
 %%%%%
 if isfolder('DeepSeg_nii_dir')
-    rmdir('DeepSeg_nii_dir','s'); 
+    rmdir('DeepSeg_nii_dir','s');
 end
 if isfolder('DeepSeg_files')
     rmdir('DeepSeg_files','s');
 end
 
 try
-    websave('DeepBT_softlist.mat','https://drive.google.com/uc?export=download&id=1o7xPhexFo9G_dcBnfywsw_4Ve-GjnEgU'); % load the default argument from google drive
+    %     websave('DeepBT_softlist.mat','https://drive.google.com/uc?export=download&id=1o7xPhexFo9G_dcBnfywsw_4Ve-GjnEgU'); % load the default argument from google drive
+    websave('DeepBTSeg_softlist.csv','https://drive.google.com/uc?export=download&id=1z0gtFeoj8JZiiSZL87RdWdVdlRGOmuWY'); % load the default argument from google drive
 catch ME
     if strcmp(ME.message,'Could not access server. https://drive.google.com/uc?export=download&id=1o7xPhexFo9G_dcBnfywsw_4Ve-GjnEgU.')
         %warndlg('Fail to download softlist. Please check Internet connection and restart DeepNI.', '!! Warning !!');
@@ -75,6 +76,7 @@ catch ME
         return;
     end
 end
+
 % choose the version of dicominfo_fastversion.m
 if ~isfile('utils/dicominfo_fastversion.m')
     version = ver;
@@ -87,7 +89,17 @@ if ~isfile('utils/dicominfo_fastversion.m')
         copyfile(str, append(str(1:end-9), '.m'));
     end
 end
-set(handles.software_list,'string',load('DeepBT_softlist.mat').softlist(1, 2:end));
+
+softlist = readcell('DeepBTSeg_softlist.csv');
+[r,c] = size(softlist);
+for i =1:r
+    for j = 1:c
+        if (ismissing(softlist{i,j})) %% replace the missing value with 0x0 double
+            softlist{i,j}=[];
+        end
+    end
+end
+set(handles.software_list,'string',softlist(1, 2:end));
 handles.job_content = cell(1,14);
 handles.pre_proctacont = cell(1, 9);
 set(handles.pre_process_table, 'Unit','characters','Data',handles.pre_proctacont);
@@ -113,7 +125,7 @@ end
 if isfolder('DeepSeg_files')
     rmdir('DeepSeg_files','s');
 end
-delete('DeepBT_softlist.mat');
+delete('DeepBTSeg_softlist.csv');
 % Get default command line output from handles structure
 % varargout{1} = handles.output;
 
