@@ -59,6 +59,10 @@ handles.output = hObject;
 addpath utils
 addpath DICOM2Nifti
 %%%%%
+
+% txtHand = findall(handles.figure1, '-property', 'FontUnits');
+% set(txtHand, 'FontUnits', 'normalized');
+
 if isfolder('DeepSeg_nii_dir')
     rmdir('DeepSeg_nii_dir','s');
 end
@@ -99,6 +103,13 @@ for i =1:r
         end
     end
 end
+
+% load the IP address and port of server
+load('+jobmgr/+netsrv/server.mat');
+server{1,1} = softlist{1,1};
+server{1,2} = softlist{2,1};
+save('+jobmgr/+netsrv/server.mat','server');
+
 set(handles.software_list,'string',softlist(1, 2:end));
 handles.job_content = cell(1,14);
 handles.pre_proctacont = cell(1, 9);
