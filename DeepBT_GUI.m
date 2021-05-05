@@ -262,10 +262,10 @@ waitbar(0.3);
 % copyfile(append(ctfroot,'\nii_dir\input_T1.nii'),append(ctfroot,'\nii_dir\', UID,'T1.nii')); % will be used later
 % info = niftiinfo(append(ctfroot,'\nii_dir\input_T1.nii'));
 
-temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{1}, append(pwd,'\DeepSeg_nii_dir'), 'nii', 'input_T1'); %for Matlab
-V = niftiread(append(pwd,'\DeepSeg_nii_dir\input_T1.nii'));
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_T1.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'T1.nii')); % will be used later
-info = niftiinfo(append(pwd,'\DeepSeg_nii_dir\input_T1.nii'));
+temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{1}, append(pwd,'/DeepSeg_nii_dir'), 'nii', 'input_T1'); %for Matlab
+V = niftiread(append(pwd,'/DeepSeg_nii_dir/input_T1.nii'));
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_T1.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'T1.nii')); % will be used later
+info = niftiinfo(append(pwd,'/DeepSeg_nii_dir/input_T1.nii'));
 
 %temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{5}, fullfile(temp_dir, temp_nifti_filename), 'nii', 'input_mask');
 %% note to myself: You shall consider adding motion correction here!!!!!!!!!!!!!!!!!!!!!!!
@@ -286,7 +286,7 @@ V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V;
 scale_factor = (2^15-1)/max(V2(:)); info.MultiplicativeScaling = 1/scale_factor;
 V2 = int16(V2 * scale_factor);
 info.ImageSize = [pad_to_size pad_to_size size(V,3)];%info.ImageSize([2 1 3]);
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_T1.nii'), info); 
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_T1.nii'), info); 
 
 
 %
@@ -294,28 +294,28 @@ V1 = permute(flip(img_T1post,1), [2 1 3]);
 scale_factor = (2^15-1)/max(V1(:)); info.MultiplicativeScaling = 1/scale_factor;
 V1 = int16(V1 * scale_factor);
 V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V1;
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_T1post.nii'), info); 
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_T1post.nii'), info); 
 
 
 V1 = permute(flip(img_T2,1), [2 1 3]);
 scale_factor = (2^15-1)/max(V1(:)); info.MultiplicativeScaling = 1/scale_factor;
 V1 = int16(V1 * scale_factor);
 V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V1;
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_T2'), info); 
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_T2'), info); 
 
 
 V1 = permute(flip(img_FLAIR,1), [2 1 3]);
 scale_factor = (2^15-1)/max(V1(:)); info.MultiplicativeScaling = 1/scale_factor;
 V1 = int16(V1 * scale_factor);
 V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V1;
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_FLAIR'), info); 
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_FLAIR'), info); 
 
 
 guidata(hObject, handles);
 
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_T1post.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'T1post.nii')); % will be used later
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_T2.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'T2.nii')); % will be used later
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_FLAIR.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'FLAIR.nii')); % will be used later
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_T1post.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'T1post.nii')); % will be used later
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_T2.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'T2.nii')); % will be used later
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_FLAIR.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'FLAIR.nii')); % will be used later
 
 %%%for matlab compiler
 % copyfile(append(ctfroot,'\nii_dir\input_T1post.nii'),append(ctfroot,'\nii_dir\', UID,'T1post.nii')); % will be used later
@@ -732,10 +732,10 @@ img_FLAIR = flip(img_FLAIR,3);
 waitbar(0.3);
 %%
 % temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{1}, fullfile(tempdir, temp_nifti_filename), 'nii', 'input_T1');
-temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{1}, append(pwd,'\DeepSeg_nii_dir'), 'nii', 'input_T1');
-V = niftiread(append(pwd,'\DeepSeg_nii_dir\input_T1.nii'));
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_T1.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'T1.nii')); % will be used later
-info = niftiinfo(append(pwd,'\DeepSeg_nii_dir\input_T1.nii'));
+temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{1}, append(pwd,'/DeepSeg_nii_dir'), 'nii', 'input_T1');
+V = niftiread(append(pwd,'/DeepSeg_nii_dir/input_T1.nii'));
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_T1.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'T1.nii')); % will be used later
+info = niftiinfo(append(pwd,'/DeepSeg_nii_dir/input_T1.nii'));
 
 %temp2  = dicm2nii_DeanMod(img_dir{sub_idx}{5}, fullfile(temp_dir, temp_nifti_filename), 'nii', 'input_mask');
 %% note to myself: You shall consider adding motion correction here!!!!!!!!!!!!!!!!!!!!!!!
@@ -756,31 +756,31 @@ V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V;
 scale_factor = (2^15-1)/max(V2(:)); info.MultiplicativeScaling = 1/scale_factor;
 V2 = int16(V2 * scale_factor);
 info.ImageSize = [pad_to_size pad_to_size size(V,3)];%info.ImageSize([2 1 3]);
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_T1.nii'), info);
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_T1.nii'), info);
 
 %
 V1 = permute(flip(img_T1post,1), [2 1 3]);
 scale_factor = (2^15-1)/max(V1(:)); info.MultiplicativeScaling = 1/scale_factor;
 V1 = int16(V1 * scale_factor);
 V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V1;
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_T1post.nii'), info);
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_T1post.nii'), info);
 
 V1 = permute(flip(img_T2,1), [2 1 3]);
 scale_factor = (2^15-1)/max(V1(:)); info.MultiplicativeScaling = 1/scale_factor;
 V1 = int16(V1 * scale_factor);
 V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V1;
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_T2'), info);
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_T2'), info);
 
 V1 = permute(flip(img_FLAIR,1), [2 1 3]);
 scale_factor = (2^15-1)/max(V1(:)); info.MultiplicativeScaling = 1/scale_factor;
 V1 = int16(V1 * scale_factor);
 V2(row_start:(row_start+size(V,1)-1), col_start:(col_start+size(V,2)-1), :) = V1;
-niftiwrite(V2, append(pwd,'\DeepSeg_nii_dir\input_FLAIR'), info);
+niftiwrite(V2, append(pwd,'/DeepSeg_nii_dir/input_FLAIR'), info);
 guidata(hObject, handles);
 
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_T1post.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'T1post.nii')); % will be used later
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_T2.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'T2.nii')); % will be used later
-copyfile(append(pwd,'\DeepSeg_nii_dir\input_FLAIR.nii'),append(pwd,'\DeepSeg_nii_dir\', UID,'FLAIR.nii')); % will be used later
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_T1post.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'T1post.nii')); % will be used later
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_T2.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'T2.nii')); % will be used later
+copyfile(append(pwd,'/DeepSeg_nii_dir/input_FLAIR.nii'),append(pwd,'/DeepSeg_nii_dir/', UID,'FLAIR.nii')); % will be used later
 %V2 = niftiread('C:\Users\ZWENG\AppData\Local\Temp\input_FLAIR.nii');
 waitbar(0.4);
 %%

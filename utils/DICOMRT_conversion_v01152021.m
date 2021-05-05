@@ -14,18 +14,18 @@ if currsoft ==1 || currsoft == 3 || currsoft == 4 || currsoft == 5
     fwrite(fileID,contour,'*bit8');
     fclose(fileID);
     % gunzip('files\Seg_results_inverted.nii.gz','files\');
-    V = niftiread(append(pwd,'\DeepSeg_files\Seg_results_inverted.nii')); %contour
+    V = niftiread(append(pwd,'/DeepSeg_files/Seg_results_inverted.nii')); %contour
     
 elseif currsoft ==2
     fileID = fopen('DeepSeg_files/DeepSeg_results_inverted.nii','w+');
     fwrite(fileID,contour,'*bit8');
     fclose(fileID);
-    V = niftiread(append(pwd,'\DeepSeg_files\DeepSeg_results_inverted.nii')); %contour
+    V = niftiread(append(pwd,'/DeepSeg_files/DeepSeg_results_inverted.nii')); %contour
 end
 
 % V = niftiread('DeepSeg_files\Seg_results_inverted.nii.gz');
 % V = round(V/1000);
-Vtemp1 = niftiread(append('DeepSeg_nii_dir\', origfile,'T1.nii'));
+Vtemp1 = niftiread(append('DeepSeg_nii_dir/', origfile,'T1.nii'));
 waitbar(0.1);
 % trim the padding 200 pixels  
 if size(Vtemp1,1)>size(Vtemp1,2)

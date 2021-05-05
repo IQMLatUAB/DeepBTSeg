@@ -87,23 +87,23 @@ if handles.currsoft ==1 || handles.currsoft == 3 || handles.currsoft == 4 || han
     fwrite(fileID,contour,'*bit8');
     fclose(fileID);
     % gunzip('files\Seg_results_inverted.nii.gz','files\');
-    contour = niftiread(append(pwd,'\DeepSeg_files\Seg_results_inverted.nii'));
+    contour = niftiread(append(pwd,'/DeepSeg_files/Seg_results_inverted.nii'));
     
 elseif handles.currsoft ==2
     fileID = fopen('DeepSeg_files/DeepSeg_results_inverted.nii','w+');
     fwrite(fileID,contour,'*bit8');
     fclose(fileID);
-    contour = niftiread(append(pwd,'\DeepSeg_files\DeepSeg_results_inverted.nii'));
+    contour = niftiread(append(pwd,'/DeepSeg_files/DeepSeg_results_inverted.nii'));
 end
 
 % V = niftiread('/mnt/c/temp/Seg_results_inverted.nii.gz');
 % V = round(V/1000);
 % Vtemp1 = niftiread('/mnt/c/temp/input_T1_original.nii');
 % read 4 dicom series in a 4D matrix
-handles.image_vol_all(:,:,:,1) = niftiread(append('DeepSeg_nii_dir\', handles.content_show{:,11},'T1.nii'));
-image_vol_all(:,:,:,1) = niftiread(append('DeepSeg_nii_dir\', handles.content_show{:,11},'T1post.nii'));
-image_vol_all(:,:,:,2) = niftiread(append('DeepSeg_nii_dir\', handles.content_show{:,11},'T2.nii'));
-image_vol_all(:,:,:,3) = niftiread(append('DeepSeg_nii_dir\', handles.content_show{:,11},'FLAIR.nii'));
+handles.image_vol_all(:,:,:,1) = niftiread(append('DeepSeg_nii_dir/', handles.content_show{:,11},'T1.nii'));
+image_vol_all(:,:,:,1) = niftiread(append('DeepSeg_nii_dir/', handles.content_show{:,11},'T1post.nii'));
+image_vol_all(:,:,:,2) = niftiread(append('DeepSeg_nii_dir/', handles.content_show{:,11},'T2.nii'));
+image_vol_all(:,:,:,3) = niftiread(append('DeepSeg_nii_dir/', handles.content_show{:,11},'FLAIR.nii'));
 waitbar(0.8);
 % trim the padding 200 pixels  
 if size(handles.image_vol_all(:,:,:,1),1)>size(handles.image_vol_all(:,:,:,1),2)
