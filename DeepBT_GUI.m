@@ -347,6 +347,7 @@ waitbar(0.6);
 
 
 clientdata.softnum = get(handles.software_list, 'Value');
+clientdata.date = datenum(datetime);
 configs = {clientdata};
 run_opts = struct();
 run_opts.execution_method = 'job_server';
@@ -506,7 +507,7 @@ if table_info{idx(1),4}
                     msgbox('This job has been canceled in server.');
                 end
             else
-                waitfor(msgbox('Cannot cancel a job which is being processing in server.'));
+                msgbox('Cannot cancel a job which is being processing in server.');
                 handles.job_content{idx(1),1} = 'Action';
                 job_show = handles.job_content(:,1:10);
                 set(handles.job_table, 'Unit','characters','Data',job_show);

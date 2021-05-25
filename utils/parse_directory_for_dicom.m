@@ -86,8 +86,10 @@ for i = 1:length(study_ID)
         if ~isfield(fileinfo, 'SeriesDescription')
             fileinfo.SeriesDescription = '';
         end
+%         table_content(end+1,:) = {false, fileinfo.PatientID, fileinfo.PatientName.FamilyName, fileinfo.PatientName.GivenName, fileinfo.StudyDescription, fileinfo.SeriesDescription, fileinfo.StudyDate, fileinfo.SeriesTime, ...
+%             length(study_description{i}.description{j}.filename), false};
         table_content(end+1,:) = {false, fileinfo.PatientID, fileinfo.PatientName.FamilyName, fileinfo.PatientName.GivenName, fileinfo.StudyDescription, fileinfo.SeriesDescription, fileinfo.StudyDate, fileinfo.SeriesTime, ...
-            length(study_description{i}.description{j}.filename), false};
+            length(study_description{i}.description{j}.filename)};
         
     end
 end

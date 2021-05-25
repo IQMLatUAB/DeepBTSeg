@@ -10,7 +10,8 @@ if ~isfolder('DeepSeg_files') %make sure files folder exists
     mkdir DeepSeg_files;
 end
 if currsoft ==1 || currsoft == 3 || currsoft == 4 || currsoft == 5
-    fileID = fopen('DeepSeg_files/Seg_results_inverted.nii.gz','w+');
+%     fileID = fopen('DeepSeg_files/Seg_results_inverted.nii.gz','w+');
+    fileID = fopen('DeepSeg_files/Seg_results_inverted.nii','w+');
     fwrite(fileID,contour,'*bit8');
     fclose(fileID);
     % gunzip('files\Seg_results_inverted.nii.gz','files\');
