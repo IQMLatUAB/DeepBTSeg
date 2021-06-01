@@ -10,7 +10,7 @@ function start_client(server, port, timeout)
 %
 
     if nargin < 3
-        timeout = 20000; % milliseconds to wait before returning to MATLAB
+        timeout = 180000; % milliseconds to wait before returning to MATLAB
                          % in the case of communication failure.
     end
     if nargin < 2
