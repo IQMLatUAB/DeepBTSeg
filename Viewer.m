@@ -123,11 +123,7 @@ end
 V_seg_results_nifti = contour(row_start:(row_start+size(handles.image_vol_all(:,:,:,1),1)-1), col_start:(col_start+size(handles.image_vol_all(:,:,:,1),2)-1),:);
 [x, y, z] = size(V_seg_results_nifti);
 
-% if handles.currsoft ==2
-%     enha = 4;
-% elseif handles.currsoft ==1
-%     enha = 3;
-% end
+
 for idx_target = 1:5
     if idx_target==1
         mask1 = ((V_seg_results_nifti==1) + (V_seg_results_nifti==3))>0;
@@ -205,50 +201,26 @@ end
 handles.all_label = new_all_label;
 handles.mask1 = handles.mask_all(:,:,:, new_all_label(1, end));
 %     handles.mask1 = handles.mask_all(:,:,:,now_label_new);
-tempvec = squeeze(sum(sum(handles.mask1,1),2));
-tempvec = find(tempvec>0);
-handles.outcurrent_slice = tempvec(round(length(tempvec)/2));
-guidata(handles.axes2, handles);
-tempvec = squeeze(sum(sum(handles.mask1,1),3));
-tempvec = find(tempvec>0);
-handles.outcurrent_j = tempvec(round(length(tempvec)/2));
-guidata(handles.axes2, handles);
-tempvec = squeeze(sum(sum(handles.mask1,2),3));
-tempvec = find(tempvec>0);
-handles.outcurrent_i = tempvec(round(length(tempvec)/2));
-guidata(handles.axes2, handles);
+if(~isfield(handles, 'outcurrent_slice'))
+    tempvec = squeeze(sum(sum(handles.mask1,1),2));
+    tempvec = find(tempvec>0);
+    handles.outcurrent_slice = tempvec(round(length(tempvec)/2));
+    guidata(handles.axes2, handles);
+    tempvec = squeeze(sum(sum(handles.mask1,1),3));
+    tempvec = find(tempvec>0);
+    handles.outcurrent_j = tempvec(round(length(tempvec)/2));
+    guidata(handles.axes2, handles);
+    tempvec = squeeze(sum(sum(handles.mask1,2),3));
+    tempvec = find(tempvec>0);
+    handles.outcurrent_i = tempvec(round(length(tempvec)/2));
+    guidata(handles.axes2, handles);
+    handles = refresh_allout(handles);
+    guidata(hObject, handles);
+    guidata(handles.axes2, handles);
+end
 handles = refresh_allout(handles);
 guidata(hObject, handles);
 guidata(handles.axes2, handles);
-% else
-%     idx = find(handles.all_label==now_label_new); %if contour already shown on the image
-%     handles.all_label(idx) = [];
-%     handles = refresh_allout(handles);
-%     guidata(hObject, handles);
-%     guidata(handles.axes2, handles);
-% end
-% if handles.now_label ~= now_label_new
-%     handles.now_label = now_label_new;
-%     handles.mask1 = handles.mask_all==now_label_new;
-% else
-%     handles.mask1 = handles.mask_all==now_label_new;
-% end
-
-% tempvec = squeeze(sum(sum(handles.mask1,1),2));
-% tempvec = find(tempvec>0);
-% handles.outcurrent_slice = tempvec(round(length(tempvec)/2));
-% guidata(handles.axes2, handles);
-% tempvec = squeeze(sum(sum(handles.mask1,1),3));
-% tempvec = find(tempvec>0);
-% handles.outcurrent_j = tempvec(round(length(tempvec)/2));
-% guidata(handles.axes2, handles);
-% tempvec = squeeze(sum(sum(handles.mask1,2),3));
-% tempvec = find(tempvec>0);
-% handles.outcurrent_i = tempvec(round(length(tempvec)/2));
-% guidata(handles.axes2, handles);
-% handles = refresh_allout(handles);
-% guidata(hObject, handles);
-% guidata(handles.axes2, handles);
 
 return;
 
